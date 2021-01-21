@@ -1,0 +1,52 @@
+<html>
+<body style="background-color:pink;">
+    <head>
+   	 <title>  DBMS ASSIGNMENT 13 </title>
+   	 <script language = "javascript">
+   	 var obj1 = {"NAME": "Bhavik" , "CLASS" : "T.E (B) COMP", "ROLL_NO" : "39055"};
+   	 document.writeln("<h1>1) SIMPLE JSON OBJECT </h1>");
+     document.writeln("<h4> My Info : </h4>");
+   	 document.write("My NAME is : " + obj1.NAME);
+   	 document.write("<br>");
+   	 document.writeln("My CLASS is : " + obj1.CLASS);
+     document.write("<br>");
+     document.writeln("My ROLL NO is : " + obj1.ROLL_NO);
+
+     document.writeln("<h1>2) SIMPLE JSON ARRAY OBJECT  </h1>");
+         var books = { "DBMS" : [
+            { "Name"  : "DBMS-TECHMAX", "price" : 500 },
+            { "Name"  : "DBMS-EASY SOLUTION", "price" : 100 }],
+
+            "TOC"  : [
+               { "Name"  : "TOC-TECHMAX", "price" : 600 },
+               { "Name"  : "TOC-EASY SOLUTION", "price" : 120 }]
+         }
+         var i = 0
+         document.writeln("<table border = '2'><tr>");
+
+         for(i = 0;i<books.DBMS.length;i++) {
+            document.writeln("<td>");
+            document.writeln("<table border = '1' width = 100 >");
+            document.writeln("<tr><td><b>Name</b></td><td width = 50>" + books.DBMS[i].Name+"</td></tr>");
+            document.writeln("<tr><td><b>Price</b></td><td width = 50>" + books.DBMS[i].price +"</td></tr>");
+            document.writeln("</table>");
+            document.writeln("</td>");
+         }
+
+         for(i = 0;i<books.TOC.length;i++) {
+            document.writeln("<td>");
+            document.writeln("<table border = '1' width = 100 >");
+            document.writeln("<tr><td><b>Name</b></td><td width = 50>" + books.TOC[i].Name+"</td></tr>");
+            document.writeln("<tr><td><b>Price</b></td><td width = 50>" + books.TOC[i].price+"</td></tr>");
+            document.writeln("</table>");
+            document.writeln("</td>");
+         }
+
+         document.writeln("</tr></table>");
+
+   	 </script>
+    </head>
+    <body>
+    </body>
+</body>
+</html>

@@ -1,0 +1,231 @@
+SCRIPT:
+
+> show databases
+admin    0.000GB
+assign9  0.000GB
+config   0.000GB
+local    0.000GB
+> use assign10
+switched to db assign10
+> db.createCollection("emp_info")
+{ "ok" : 1 }
+> db.emp_info.insert({emp_id:1,emp_name:"Bhavik",emp_age:20,emp_city:"Pune",emp_salary:50000})
+WriteResult({ "nInserted" : 1 })
+> db.emp_info.insert({emp_id:2,emp_name:"Steve",emp_age:60,emp_city:"LA",emp_salary:90000})
+WriteResult({ "nInserted" : 1 })
+> db.emp_info.insert({emp_id:3,emp_name:"Jeff",emp_age:40,emp_city:"Mumbai",emp_salary:40000})
+WriteResult({ "nInserted" : 1 })
+> db.emp_info.insert({emp_id:4,emp_name:"Dhoni",emp_age:39,emp_city:"Pune",emp_salary:99000})
+WriteResult({ "nInserted" : 1 })
+> db.emp_info.find().pretty()
+{
+        "_id" : ObjectId("5faacfdf65da66d36603e8eb"),
+        "emp_id" : 1,
+        "emp_name" : "Bhavik",
+        "emp_age" : 20,
+        "emp_city" : "Pune",
+        "emp_salary" : 50000
+}
+{
+        "_id" : ObjectId("5faad05465da66d36603e8ec"),
+        "emp_id" : 2,
+        "emp_name" : "Steve",
+        "emp_age" : 60,
+        "emp_city" : "LA",
+        "emp_salary" : 90000
+}
+{
+        "_id" : ObjectId("5faad07565da66d36603e8ed"),
+        "emp_id" : 3,
+        "emp_name" : "Jeff",
+        "emp_age" : 40,
+        "emp_city" : "Mumbai",
+        "emp_salary" : 40000
+}
+{
+        "_id" : ObjectId("5faad0db65da66d36603e8ee"),
+        "emp_id" : 4,
+        "emp_name" : "Dhoni",
+        "emp_age" : 39,
+        "emp_city" : "Pune",
+        "emp_salary" : 99000
+}
+
+
+> db.emp_info.aggregate({$sort:{emp_name:1}}).pretty()
+{
+        "_id" : ObjectId("5faacfdf65da66d36603e8eb"),
+        "emp_id" : 1,
+        "emp_name" : "Bhavik",
+        "emp_age" : 20,
+        "emp_city" : "Pune",
+        "emp_salary" : 50000
+}
+{
+        "_id" : ObjectId("5faad0db65da66d36603e8ee"),
+        "emp_id" : 4,
+        "emp_name" : "Dhoni",
+        "emp_age" : 39,
+        "emp_city" : "Pune",
+        "emp_salary" : 99000
+}
+{
+        "_id" : ObjectId("5faad07565da66d36603e8ed"),
+        "emp_id" : 3,
+        "emp_name" : "Jeff",
+        "emp_age" : 40,
+        "emp_city" : "Mumbai",
+        "emp_salary" : 40000
+}
+{
+        "_id" : ObjectId("5faad05465da66d36603e8ec"),
+        "emp_id" : 2,
+        "emp_name" : "Steve",
+        "emp_age" : 60,
+        "emp_city" : "LA",
+        "emp_salary" : 90000
+}
+> db.emp_info.find({emp_name:{$regex:/^b/i}}).pretty()
+{
+        "_id" : ObjectId("5faacfdf65da66d36603e8eb"),
+        "emp_id" : 1,
+        "emp_name" : "Bhavik",
+        "emp_age" : 20,
+        "emp_city" : "Pune",
+        "emp_salary" : 50000
+}
+> db.emp_info.update({emp_id:2},{$set:{emp_name:"Mukesh",emp_city:"New Mumbai"}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.emp_info.find({emp_id:2}).pretty()
+{
+        "_id" : ObjectId("5faad05465da66d36603e8ec"),
+        "emp_id" : 2,
+        "emp_name" : "Mukesh",
+        "emp_age" : 60,
+        "emp_city" : "New Mumbai",
+        "emp_salary" : 90000
+}
+> db.emp_info.save({_id:5,emp_name:"Virat",emp_age:30,emp_city:"Punjab",emp_salary:30000})
+WriteResult({ "nMatched" : 0, "nUpserted" : 1, "nModified" : 0, "_id" : 5 })
+> db.emp_info.find({_id:5}).pretty()
+{
+        "_id" : 5,
+        "emp_name" : "Virat",
+        "emp_age" : 30,
+        "emp_city" : "Punjab",
+        "emp_salary" : 30000
+}
+>db.emp_info.save({_id:5,emp_name:"Sachin",emp_age:47,emp_city:"Mumbai",emp_salary:80000})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.emp_info.find({_id:5}).pretty()
+{
+        "_id" : 5,
+        "emp_name" : "Sachin",
+        "emp_age" : 47,
+        "emp_city" : "Mumbai",
+        "emp_salary" : 80000
+}
+> db.emp_info.find({$and:[{"emp_city":"Mumbai"},{"emp_age":{$gt:45}}]}).pretty()
+{
+        "_id" : 5,
+        "emp_name" : "Sachin",
+        "emp_age" : 47,
+        "emp_city" : "Mumbai",
+        "emp_salary" : 80000
+}
+> db.emp_info.find({"emp_age":{$not :{$lt : 40}}}).pretty()
+{
+        "_id" : ObjectId("5faad05465da66d36603e8ec"),
+        "emp_id" : 2,
+        "emp_name" : "Mukesh",
+        "emp_age" : 60,
+        "emp_city" : "New Mumbai",
+        "emp_salary" : 90000
+}
+{
+        "_id" : ObjectId("5faad07565da66d36603e8ed"),
+        "emp_id" : 3,
+        "emp_name" : "Jeff",
+        "emp_age" : 40,
+        "emp_city" : "Mumbai",
+        "emp_salary" : 40000
+}
+{
+        "_id" : 5,
+        "emp_name" : "Sachin",
+        "emp_age" : 47,
+        "emp_city" : "Mumbai",
+        "emp_salary" : 80000
+}
+> db.emp_info.find({$or:[{"emp_city":"New Mumbai"},{"emp_age":{$lt:40}}]}).pretty()
+{
+        "_id" : ObjectId("5faacfdf65da66d36603e8eb"),
+        "emp_id" : 1,
+        "emp_name" : "Bhavik",
+        "emp_age" : 20,
+        "emp_city" : "Pune",
+        "emp_salary" : 50000
+}
+{
+        "_id" : ObjectId("5faad05465da66d36603e8ec"),
+        "emp_id" : 2,
+        "emp_name" : "Mukesh",
+        "emp_age" : 60,
+        "emp_city" : "New Mumbai",
+        "emp_salary" : 90000
+}
+{
+        "_id" : ObjectId("5faad0db65da66d36603e8ee"),
+        "emp_id" : 4,
+        "emp_name" : "Dhoni",
+        "emp_age" : 39,
+        "emp_city" : "Pune",
+        "emp_salary" : 99000
+}
+> db.emp_info.find({"emp_city":"Mumbai", $nor : [{"emp_age":{$lt : 45}}]}).pretty()
+{
+        "_id" : 5,
+        "emp_name" : "Sachin",
+        "emp_age" : 47,
+        "emp_city" : "Mumbai",
+        "emp_salary" : 80000
+}
+
+> db.emp_info.aggregate([{$group:{_id:null,count:{$sum:1}}}])
+{ "_id" : null, "count" : 5 }
+> db.emp_info.remove({_id:5})
+WriteResult({ "nRemoved" : 1 })
+> db.emp_info.find({_id:5}).pretty()
+> db.emp_info.find().pretty()
+{
+        "_id" : ObjectId("5faacfdf65da66d36603e8eb"),
+        "emp_id" : 1,
+        "emp_name" : "Bhavik",
+        "emp_age" : 20,
+        "emp_city" : "Pune",
+        "emp_salary" : 50000
+}
+{
+        "_id" : ObjectId("5faad05465da66d36603e8ec"),
+        "emp_id" : 2,
+        "emp_name" : "Mukesh",
+        "emp_age" : 60,
+        "emp_city" : "New Mumbai",
+        "emp_salary" : 90000
+}
+{
+        "_id" : ObjectId("5faad07565da66d36603e8ed"),
+        "emp_id" : 3,
+        "emp_name" : "Jeff",
+        "emp_age" : 40,
+        "emp_city" : "Mumbai",
+        "emp_salary" : 40000
+}
+{
+        "_id" : ObjectId("5faad0db65da66d36603e8ee"),
+        "emp_id" : 4,
+        "emp_name" : "Dhoni",
+        "emp_age" : 39,
+        "emp_city" : "Pune",
+        "emp_salary" : 99000
+}
